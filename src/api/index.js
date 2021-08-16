@@ -22,7 +22,7 @@ let myDelete = axios.create({
 myDelete.interceptors.request.use(config => {
     if (sessionStorage.getItem("token")) {
         config.headers = {
-            'token': sessionStorage.token,
+            'X-Token': sessionStorage.getItem("token"),
             'Access-Control-Allow-Origin': '*',
             "access-control-allow-credentials": "true"
         }
@@ -35,7 +35,7 @@ myDelete.interceptors.request.use(config => {
 myPost.interceptors.request.use(config => {
     if (sessionStorage.getItem("token")) {
         config.headers = {
-            'token': sessionStorage.token,
+            'X-Token': sessionStorage.getItem("token"),
             'Access-Control-Allow-Origin': '*',
             "access-control-allow-credentials": "true"
         }
@@ -48,7 +48,7 @@ myPost.interceptors.request.use(config => {
 myGet.interceptors.request.use(config => {
     if (sessionStorage.getItem("token")) {
         config.headers = {
-            'token': sessionStorage.token,
+            'X-Token': sessionStorage.getItem("token"),
             'Access-Control-Allow-Origin': '*',
             "access-control-allow-credentials": "true"
         }
@@ -154,334 +154,360 @@ myGet.interceptors.response.use(response => {
 })
 
 export default {
-    login(username, userpass) {
+    login(username, password) {
         return myPost({
             url: urls.login,
             data: {
                 username,
-                userpass,
+                password,
             }
         })
     },
-    logincheck(username, userpass) {
+    bannerIndex(page, limit) {
         return myPost({
-            url: urls.logincheck,
-            data: {
-                username,
-                userpass,
-            }
-        })
-    },
-    addclassify(title, username, userpass) {
-        return myPost({
-            url: urls.addclassify,
-            data: {
-                title,
-                username,
-                userpass
-            }
-        })
-    },
-    listclassify() {
-        return myPost({
-            url: urls.listclassify,
-        })
-    },
-    updateclassify(title, sort, classify_id, username, userpass) {
-        return myPost({
-            url: urls.updateclassify,
-            data: {
-                title,
-                sort,
-                classify_id,
-                username,
-                userpass
-            }
-        })
-    },
-    delclassify(classify_id, username, userpass) {
-        return myPost({
-            url: urls.delclassify,
-            data: {
-                classify_id,
-                username,
-                userpass
-            }
-        })
-    },
-    updateswiper(pic, page, username, userpass) {
-        return myPost({
-            url: urls.updateswiper,
-            data: {
-                pic,
-                page,
-                username,
-                userpass
-            }
-        })
-    },
-    delswiper(page, username, userpass) {
-        return myPost({
-            url: urls.delswiper,
+            url: urls.bannerIndex,
             data: {
                 page,
-                username,
-                userpass
+                limit
             }
         })
     },
-    viewswiper() {
+    bannerUpload(image, title) {
         return myPost({
-            url: urls.viewswiper,
-        })
-    },
-    billagreementsetstatus(username, userpass, status) {
-        return myPost({
-            url: urls.billagreementsetstatus,
+            url: urls.bannerUpload,
             data: {
-                username,
-                userpass,
-                status
-            }
+                image,
+                title
+            },
         })
     },
-    billagreementstatusview() {
+    categoryAdd(pid, title) {
         return myPost({
-            url: urls.billagreementstatusview,
-        })
-    },
-    billagreement(username, userpass, content) {
-        return myPost({
-            url: urls.billagreement,
+            url: urls.categoryAdd,
             data: {
-                username,
-                userpass,
-                content
-            }
+                pid,
+                title
+            },
         })
     },
-    billagreement_view() {
+    categoryIndex(page, limit) {
         return myPost({
-            url: urls.billagreement_view,
-        })
-    },
-    updateinvitation(username, userpass, obj) {
-        return myPost({
-            url: urls.updateinvitation,
-            data: {
-                username,
-                userpass,
-                ...obj
-            }
-        })
-    },
-    invitation_view() {
-        return myPost({
-            url: urls.invitation_view,
-        })
-    },
-    addgoodspic(username, userpass, pic) {
-        return myPost({
-            url: urls.addgoodspic,
-            data: {
-                username,
-                userpass,
-                pic
-            }
-        })
-    },
-    goodspic_del(username, userpass, pic_url) {
-        return myPost({
-            url: urls.goodspic_del,
-            data: {
-                username,
-                userpass,
-                pic_url
-            }
-        })
-    },
-    goods_add(username, userpass, obj) {
-        return myPost({
-            url: urls.goods_add,
-            data: {
-                username,
-                userpass,
-                ...obj
-            }
-        })
-    },
-    goods_list(page, pagesize, keyword, classify_id) {
-        return myPost({
-            url: urls.goods_list,
+            url: urls.categoryIndex,
             data: {
                 page,
-                pagesize,
-                keyword,
-                classify_id
+                limit
             }
         })
     },
-    goods_del(username, userpass, id) {
+    categoryEdit(category_id, pid, title) {
         return myPost({
-            url: urls.goods_del,
+            url: urls.categoryEdit,
             data: {
-                username,
-                userpass,
-                id
+                category_id,
+                pid,
+                title
+            },
+        })
+    },
+    categoryDel(category_id) {
+        return myPost({
+            url: urls.categoryDel,
+            data: {
+                category_id,
+            },
+        })
+    },
+    orderIndex(page, limit, status, search,export1) {
+        return myPost({
+            url: urls.orderIndex,
+            data: {
+                page,
+                limit,
+                status,
+                search,
+                export:export1
             }
         })
     },
-    goods_update(username, userpass, obj, id) {
+    productUpload_product_pic(image) {
         return myPost({
-            url: urls.goods_update,
+            url: urls.productUpload_product_pic,
             data: {
-                username,
-                userpass,
+                image,
+            },
+        })
+    },
+    productAdd_product(obj) {
+        return myPost({
+            url: urls.productAdd_product,
+            data: {
                 ...obj,
-                id
-            }
+            },
         })
     },
-    user_freeorder(page, pagesize, keyword) {
+    productIndex(keyword,category_id,page, limit) {
         return myPost({
-            url: urls.user_freeorder,
+            url: urls.productIndex,
             data: {
-                page,
-                pagesize,
-                keyword
-            }
-        })
-    },
-    quota_list(page, pagesize, keyword) {
-        return myPost({
-            url: urls.quota_list,
-            data: {
-                page,
-                pagesize,
-                keyword
-            }
-        })
-    },
-    quota_view(user_id) {
-        return myPost({
-            url: urls.quota_view,
-            data: {
-                user_id
-            }
-        })
-    },
-    user_order(page, pagesize, keyword, status) {
-        return myPost({
-            url: urls.user_order,
-            data: {
-                page,
-                pagesize,
                 keyword,
-                status
+                category_id,
+                page,
+                limit,
             }
         })
     },
-    guideset_content(username, userpass, content) {
+    productAdd_sku(sku, product_id) {
         return myPost({
-            url: urls.guideset_content,
+            url: urls.productAdd_sku,
             data: {
-                username,
-                userpass,
-                content
+                sku,
+                product_id
             }
         })
     },
-    guide_content() {
+    productDel_sku(sku_id) {
         return myPost({
-            url: urls.guide_content,
+            url: urls.productDel_sku,
+            data: {
+                sku_id
+            }
         })
     },
-    payment_set(obj) {
+    productEdit_product(obj) {
         return myPost({
-            url: urls.payment_set,
+            url: urls.productEdit_product,
             data: {
                 ...obj
             }
         })
     },
-    payment_view() {
+    productProduct_pic_del(pic_id_arr, product_id) {
         return myPost({
-            url: urls.payment_view,
-        })
-    },
-    centerbanner_list() {
-        return myPost({
-            url: urls.centerbanner_list,
-        })
-    },
-    centerbanner_edit(username, userpass, pic, url, id, title, sub_title) {
-        return myPost({
-            url: urls.centerbanner_edit,
+            url: urls.productProduct_pic_del,
             data: {
-                username,
-                userpass,
-                pic,
-                url,
-                id,
+                pic_id_arr,
+                product_id
+            }
+        })
+    },
+    productProduct_pic_add(pic_id_arr, product_id) {
+        return myPost({
+            url: urls.productProduct_pic_add,
+            data: {
+                pic_id_arr,
+                product_id
+            }
+        })
+    },
+    commitIndex(page, limit, keyword) {
+        return myPost({
+            url: urls.commitIndex,
+            data: {
+                page,
+                limit,
+                keyword
+            }
+        })
+    },
+    productDelete_product(product_id) {
+        return myPost({
+            url: urls.productDelete_product,
+            data: {
+                product_id
+            }
+        })
+    },
+    otherIndex() {
+        return myPost({
+            url: urls.otherIndex,
+        })
+    },
+    otherWeb_config_detail() {
+        return myGet({
+            url: urls.otherWeb_config_detail,
+        })
+    },
+    otherWeb_config_edit(only_tag, name, value) {
+        return myPost({
+            url: urls.otherWeb_config_edit,
+            data: {
+                only_tag,
+                name,
+                value
+            }
+        })
+    },
+    couponsIndex(page, limit) {
+        return myPost({
+            url: urls.couponsIndex,
+            data: {
+                page,
+                limit,
+            }
+        })
+    },
+    couponsAdd(obj) {
+        return myPost({
+            url: urls.couponsAdd,
+            data: {
+                ...obj
+            }
+        })
+    },
+    couponsDel(coupons_id) {
+        return myPost({
+            url: urls.couponsDel,
+            data: {
+                coupons_id
+            }
+        })
+    },
+    userIndex(keyword, page, limit,export1) {
+        return myPost({
+            url: urls.userIndex,
+            data: {
+                keyword,
+                page,
+                limit,
+                export:export1
+            }
+        })
+    },
+    userCoupons2user(user_id, coupons_id) {
+        return myPost({
+            url: urls.userCoupons2user,
+            data: {
+                user_id,
+                coupons_id
+            }
+        })
+    },
+    otherAdd_article(title, content, tag) {
+        return myPost({
+            url: urls.otherAdd_article,
+            data: {
                 title,
-                sub_title
+                content,
+                tag
             }
         })
     },
-    order_view(username, userpass, order_id) {
+    otherArticle_list(tag, page, limit) {
         return myPost({
-            url: urls.order_view,
+            url: urls.otherArticle_list,
             data: {
-                username,
-                userpass,
-                order_id
-            }
-        })
-    },
-    order_postsale(username, userpass, page, pagesize, status) {
-        return myPost({
-            url: urls.order_postsale,
-            data: {
-                username,
-                userpass,
+                tag,
                 page,
-                pagesize,
-                status
+                limit
             }
         })
     },
-    order_postsaleset(username, userpass, id, type) {
+    otherEdit_article(article_id, title, content, tag) {
         return myPost({
-            url: urls.order_postsaleset,
+            url: urls.otherEdit_article,
             data: {
-                username,
-                userpass,
-                id,
-                type
+                article_id,
+                title,
+                content,
+                tag
             }
         })
     },
-    withdrawal_list(username, userpass, page, pagesize, status) {
+    otherDel_article(article_id) {
         return myPost({
-            url: urls.withdrawal_list,
+            url: urls.otherDel_article,
             data: {
-                username,
-                userpass,
-                page,
-                pagesize,
-                status
+                article_id,
             }
         })
     },
-    withdrawal(username, userpass, id, remark, status) {
+    otherUpload_attach(image) {
         return myPost({
-            url: urls.withdrawal,
+            url: urls.otherUpload_attach,
             data: {
-                username,
-                userpass,
-                id,
-                remark,
-                status
+                image,
+            }
+        })
+    },
+    orderOrder2express(order_id, express_id, express_number) {
+        return myPost({
+            url: urls.orderOrder2express,
+            data: {
+                order_id,
+                express_id,
+                express_number
+            }
+        })
+    },
+    orderExpress_list() {
+        return myGet({
+            url: urls.orderExpress_list,
+        })
+    },
+    commitDel_commit(commit_id) {
+        return myPost({
+            url: urls.commitDel_commit,
+            data: {
+                commit_id
+            }
+        })
+    },
+    bannerDel(banner_id) {
+        return myPost({
+            url: urls.bannerDel,
+            data: {
+                banner_id
+            }
+        })
+    },
+    productGet_desc(product_id){
+        return myPost({
+            url: urls.productGet_desc,
+            data: {
+                product_id
+            }
+        })
+    },
+    orderWithdraw_list(obj){
+        return myPost({
+            url: urls.orderWithdraw_list,
+            data: {
+                ...obj
+            }
+        })
+    },
+    otherNearly_thirty_date(){
+        return myPost({
+            url: urls.otherNearly_thirty_date,
+        })
+    },
+    userUser_children(obj){
+        return myPost({
+            url: urls.userUser_children,
+            data: {
+                ...obj
+            }
+        })
+    },
+    otherMoney_and_level(){
+        return myPost({
+            url: urls.otherMoney_and_level,
+        })
+    },
+    orderChange_withdraw_status(obj){
+        return myPost({
+            url: urls.orderChange_withdraw_status,
+            data: {
+                ...obj
+            }
+        })
+    },
+    orderOrder_by_time(way,export1){
+        return myPost({
+            url: urls.orderOrder_by_time,
+            data: {
+                way,
+                export:export1
             }
         })
     },

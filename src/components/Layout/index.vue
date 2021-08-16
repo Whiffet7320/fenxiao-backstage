@@ -44,7 +44,7 @@ export default {
   height: calc(100vh);
 }
 .el-aside {
-  background-color:#ffffff;
+  background-color:#282828;
   color: #333;
   width: 284px !important;
 }
